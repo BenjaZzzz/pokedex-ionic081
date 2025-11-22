@@ -1,0 +1,130 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+/* Global CSS Variables */
+:root {
+  /* Pokémon Theme Colors */
+  --ion-color-primary: #dc0a2d;
+  --ion-color-primary-rgb: 220, 10, 45;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #c20928;
+  --ion-color-primary-tint: #e02342;
+
+  /* Pokémon Type Colors */
+  --pokemon-normal: #A8A878;
+  --pokemon-fire: #F08030;
+  --pokemon-water: #6890F0;
+  --pokemon-electric: #F8D030;
+  --pokemon-grass: #78C850;
+  --pokemon-ice: #98D8D8;
+  --pokemon-fighting: #C03028;
+  --pokemon-poison: #A040A0;
+  --pokemon-ground: #E0C068;
+  --pokemon-flying: #A890F0;
+  --pokemon-psychic: #F85888;
+  --pokemon-bug: #A8B820;
+  --pokemon-rock: #B8A038;
+  --pokemon-ghost: #705898;
+  --pokemon-dragon: #7038F8;
+  --pokemon-dark: #705848;
+  --pokemon-steel: #B8B8D0;
+  --pokemon-fairy: #EE99AC;
+
+  /* Grayscale Colors */
+  --grayscale-dark: #212121;
+  --grayscale-medium: #666666;
+  --grayscale-light: #e0e0e0;
+  --grayscale-background: #efefef;
+  --grayscale-white: #ffffff;
+
+  /* Shadows */
+  --drop-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  --drop-shadow-hover: 0px 3px 12px 3px rgba(0, 0, 0, 0.2);
+  --drop-shadow-inner: 0px 1px 3px 1px rgba(0, 0, 0, 0.25) inset;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Ionic Overrides */
+ion-content {
+  --background: var(--ion-color-primary);
+}
+
+ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  color: white;
+
+  ion-spinner {
+    --color: white;
+    margin-bottom: 16px;
+  }
+}

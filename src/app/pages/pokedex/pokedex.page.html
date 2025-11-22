@@ -1,0 +1,103 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <img src="assets/pokeball.svg" alt="Pokéball" class="logo" style="width: 32px; height: 32px; margin-left: 16px;">
+    </ion-buttons>
+    <ion-title>Pokédex</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleSortOptions()">
+        <ion-icon slot="icon-only" name="filter"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Sort Options -->
+  @if (showSortOptions) {
+    <ion-toolbar color="light">
+      <ion-segment [value]="sortBy" (ionChange)="onSortChange($event)">
+        <ion-segment-button value="number">
+          <ion-label>Number</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="name">
+          <ion-label>Name</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  }
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" color="primary">
+  <!-- Search Bar -->
+  <ion-searchbar
+    placeholder="Search Pokémon..."
+    (ionInput)="onSearch($event)"
+    animated="true"
+    class="custom-searchbar"
+  ></ion-searchbar>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner name="crescent" color="light"></ion-spinner>
+      <p>Loading Pokémon...</p>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading && filteredPokemons.length === 0) {
+    <div class="empty-state">
+      <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+      <h3>No Pokémon Found</h3>
+      <p>Try adjusting your search</p>
+    </div>
+  }
+
+  <!-- Pokémon Grid -->
+  @if (!isLoading && filteredPokemons.length > 0) {
+    <ion-grid fixed>
+      <ion-row>
+        @for (pokemon of filteredPokemons; track pokemon.id) {
+          <ion-col size="6" size-md="4" size-lg="3">
+            <ion-card
+              (click)="viewPokemonDetail(pokemon.id)"
+              button
+              class="pokemon-card"
+            >
+              <div class="pokemon-number">
+                #{{ pokemon.id.toString().padStart(3, '0') }}
+              </div>
+
+              <div class="image-container">
+                <img
+                  [src]="pokemon.image"
+                  [alt]="pokemon.name"
+                  class="pokemon-image"
+                  (error)="pokemon.image = 'assets/pokeball.svg'"
+                />
+              </div>
+
+              <ion-card-header>
+                <ion-card-title class="pokemon-name">
+                  {{ capitalizeName(pokemon.name) }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="types-container">
+                  @for (type of pokemon.types; track type) {
+                    <ion-badge
+                      [style.--background]="getTypeColor(type)"
+                      class="type-badge"
+                    >
+                      {{ type | titlecase }}
+                    </ion-badge>
+                  }
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  }
+</ion-content>

@@ -1,0 +1,122 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [style.--background]="getMainColor()">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pokedex" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">{{ pokemon?.name || 'Loading...' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-text color="light">#{{ formatPokemonId(pokemon?.id) }}</ion-text>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [style.--background]="getMainColor()">
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner name="crescent" color="light"></ion-spinner>
+      <p>Loading Pokémon details...</p>
+    </div>
+  }
+
+  @if (pokemon && !isLoading) {
+    <!-- Pokémon Image and Navigation -->
+    <div class="pokemon-hero">
+      <div class="navigation-container">
+        @if (pokemon.id > 1) {
+          <ion-button
+            fill="clear"
+            color="light"
+            (click)="navigateToPokemon(pokemon.id - 1)"
+            class="nav-button"
+          >
+            <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+          </ion-button>
+        } @else {
+          <div class="nav-placeholder"></div>
+        }
+
+        <div class="image-container">
+          <img
+            [src]="pokemon.image"
+            [alt]="pokemon.name"
+            class="pokemon-image"
+            (error)="pokemon.image = 'assets/pokeball.svg'"
+          />
+        </div>
+
+        @if (pokemon.id < 50) {
+          <ion-button
+            fill="clear"
+            color="light"
+            (click)="navigateToPokemon(pokemon.id + 1)"
+            class="nav-button"
+          >
+            <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+          </ion-button>
+        } @else {
+          <div class="nav-placeholder"></div>
+        }
+      </div>
+
+      <!-- Types -->
+      <div class="types-section">
+        @for (type of pokemon.types; track type) {
+          <ion-chip [style.--background]="getTypeColor(type)" color="light">
+            {{ type | titlecase }}
+          </ion-chip>
+        }
+      </div>
+    </div>
+
+    <!-- Details Card -->
+    <ion-card class="details-card">
+      <ion-card-header>
+        <ion-card-title>About</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Basic Info -->
+        <ion-grid class="info-grid">
+          <ion-row>
+            <ion-col size="4" class="info-item">
+              <strong>{{ pokemon.weight }} kg</strong>
+              <p>Weight</p>
+            </ion-col>
+            <ion-col size="4" class="info-item">
+              <strong>{{ pokemon.height }} m</strong>
+              <p>Height</p>
+            </ion-col>
+            <ion-col size="4" class="info-item">
+              <strong>
+                @for (ability of pokemon.abilities; track ability; let last = $last) {
+                  <span>{{ ability | titlecase }}{{ !last ? ', ' : '' }}</span>
+                }
+              </strong>
+              <p>Abilities</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Description -->
+        <div class="description">
+          <p>{{ pokemon.description }}</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+          <h3>Base Stats</h3>
+          @for (stat of pokemon.stats; track stat.name) {
+            <div class="stat-row">
+              <span class="stat-name">{{ stat.name }}</span>
+              <span class="stat-value">{{ stat.value }}</span>
+              <ion-progress-bar
+                [value]="stat.value / 255"
+                [style.--progress-background]="getMainColor()"
+              ></ion-progress-bar>
+            </div>
+          }
+        </div>
+      </ion-card-content>
+    </ion-card>
+  }
+</ion-content>
